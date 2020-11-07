@@ -5,24 +5,24 @@ import re
 
 
 CORONA_REGION_MAP = {
-    "서울": 7,
-    "부산": 8,
-    "대구": 9,
-    "인천": 10,
-    "광주": 11,
-    "대전": 12,
-    "울산": 13,
-    "세종": 14,
-    "경기": 15,
-    "강원": 16,
-    "충북": 17,
-    "충남": 18,
-    "전북": 19,
-    "전남": 20,
-    "경북": 21,
-    "경남": 22,
-    "제주": 23,
-    "검역": 24,
+    "서울": 'map_city1',
+    "부산": 'map_city2',
+    "대구": 'map_city3',
+    "인천": 'map_city4',
+    "광주": 'map_city5',
+    "대전": 'map_city6',
+    "울산": 'map_city7',
+    "세종": 'map_city8',
+    "경기": 'map_city9',
+    "강원": 'map_city10',
+    "충북": 'map_city11',
+    "충남": 'map_city12',
+    "전북": 'map_city13',
+    "전남": 'map_city14',
+    "경북": 'map_city15',
+    "경남": 'map_city16',
+    "제주": 'map_city17',
+    "검역": 'map_city18',
 }
 
 REMOVE_TAG_REGEXP = '<.+?>'
@@ -58,5 +58,7 @@ quarantined_daily_change = re.sub(REMOVE_TAG_REGEXP, "", str(numbers[2])).strip(
 deceased_daily_change = re.sub(REMOVE_TAG_REGEXP, "", str(numbers[3])).strip().replace("전일대비 ", "")  # 사망 전일대비
 
 region = "서울"  # CORONA_REGION_MAP의 키
-region_numbers = soup.find_all('span', {'class': 'num'})
-region_confirmed = re.sub(REMOVE_TAG_REGEXP, "", str(region_numbers[region])).strip()  # 지역별 확진환자
+
+region_confirmed = re.sub(REMOVE_TAG_REGEXP, "", str(soup.select('button[data-city=map_city1] .num')[0]).strip()) + '명'
+region_confirmed_daily_change = re.sub(REMOVE_TAG_REGEXP, "",
+                                       str(soup.select('button[data-city=map_city1] .before')[0]).strip())
